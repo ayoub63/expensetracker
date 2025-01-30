@@ -55,7 +55,7 @@
         <scope>runtime</scope>
     </dependency>
 
-    <!-- Lombok (optional, for reducing boilerplate code like getters and setters) -->
+    <!-- Lombok -->
     <dependency>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
