@@ -7,6 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { format } from 'date-fns';
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import API_URL from '../config';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -17,7 +18,7 @@ function ExpenseList() {
 
   const fetchExpenses = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/expenses');
+      const response = await axios.get(`${API_URL}/api/expenses`);
       setExpenses(response.data);
       setLoading(false);
     } catch (error) {
@@ -42,7 +43,7 @@ function ExpenseList() {
       
       await axios({
         method: 'DELETE',
-        url: 'http://localhost:8080/api/expenses/delete-selected',
+        url: `${API_URL}/api/expenses/delete-selected`,
         data: selectedIds,
         headers: {
           'Content-Type': 'application/json',

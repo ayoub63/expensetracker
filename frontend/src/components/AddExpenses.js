@@ -5,6 +5,7 @@ import {
   TextField, Button, MenuItem, Card, CardContent, 
   Typography, Box, Alert, CircularProgress 
 } from '@mui/material';
+import API_URL from '../config';
 
 const CATEGORIES = [
   { value: 'FOOD', label: 'Food & Dining' },
@@ -34,7 +35,7 @@ function AddExpense() {
     setError('');
 
     try {
-      await axios.post('http://localhost:8080/api/expenses', formData);
+      await axios.post(`${API_URL}/api/expenses`, formData);
       navigate('/');
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to add expense');
