@@ -1,42 +1,114 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { 
+  TextField, Button, MenuItem, Card, CardContent, 
+  Typography, Box, Alert, CircularProgress 
+} from '@mui/material';
+
+const CATEGORIES = [
+  { value: 'FOOD', label: 'Food & Dining' },
+  { value: 'TRANSPORT', label: 'Transportation' },
+  { value: 'ENTERTAINMENT', label: 'Entertainment' },
+  { value: 'BILLS', label: 'Bills & Utilities' },
+  { value: 'OTHER', label: 'Other' }
+];
 
 function AddExpense() {
-  const [title, setTitle] = useState('');
-  const [amount, setAmount] = useState('');
-  const [category, setCategory] = useState('FOOD');
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    title: '',
+    amount: '',
+    category: 'FOOD'
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    axios.post('http://localhost:8080/api/expenses', { title, amount, category })
-      .then(response => alert('Expense Added'))
-      .catch(error => console.error(error));
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    try {
+      await axios.post('http://localhost:8080/api/expenses', formData);
+      navigate('/');
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to add expense');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Add Expense</h2>
-      <input 
-        type="text" 
-        placeholder="Title" 
-        value={title} 
-        onChange={(e) => setTitle(e.target.value)} 
-      />
-      <input 
-        type="number" 
-        placeholder="Amount" 
-        value={amount} 
-        onChange={(e) => setAmount(e.target.value)} 
-      />
-      <select value={category} onChange={(e) => setCategory(e.target.value)}>
-        <option value="FOOD">Food</option>
-        <option value="TRANSPORT">Transport</option>
-        <option value="ENTERTAINMENT">Entertainment</option>
-        <option value="BILLS">Bills</option>
-        <option value="OTHER">Other</option>
-      </select>
-      <button type="submit">Add Expense</button>
-    </form>
+    <Card>
+      <CardContent sx={{ p: 4 }}>
+        <Typography variant="h5" gutterBottom>
+          Add New Expense
+        </Typography>
+
+        {error && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {error}
+          </Alert>
+        )}
+
+        <Box component="form" onSubmit={handleSubmit} noValidate>
+          <TextField
+            fullWidth
+            label="Title"
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+            margin="normal"
+            required
+          />
+          <TextField
+            fullWidth
+            label="Amount"
+            name="amount"
+            type="number"
+            value={formData.amount}
+            onChange={handleChange}
+            margin="normal"
+            required
+            InputProps={{
+              startAdornment: '€',
+            }}
+          />
+          <TextField
+            fullWidth
+            select
+            label="Category"
+            name="category"
+            value={formData.category}
+            onChange={handleChange}
+            margin="normal"
+            required
+          >
+            {CATEGORIES.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+
+          <Button
+            type="submit"
+            variant="contained"
+            fullWidth
+            size="large"
+            disabled={loading}
+            sx={{ mt: 3 }}
+          >
+            {loading ? <CircularProgress size={24} /> : 'Add Expense'}
+          </Button>
+        </Box>
+      </CardContent>
+    </Card>
   );
 }
 
