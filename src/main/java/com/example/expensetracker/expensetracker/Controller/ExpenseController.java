@@ -1,16 +1,16 @@
 package com.example.expensetracker.expensetracker.Controller;
 
-
 import com.example.expensetracker.expensetracker.Model.Expense;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.expensetracker.expensetracker.Service.ExpenseService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @RequestMapping("/api/expenses")
-@CrossOrigin(origins = "http://localhost:3000")
 public class ExpenseController {
 
     @Autowired
@@ -24,6 +24,12 @@ public class ExpenseController {
     @PostMapping
     public Expense saveExpense(@RequestBody Expense expense) {
         return expenseService.saveExpense(expense);
+    }
+
+    @DeleteMapping("/delete-selected")
+    public ResponseEntity<Void> deleteSelectedExpenses(@RequestBody List<Long> ids) {
+        expenseService.deleteSelectedExpenses(ids);
+        return ResponseEntity.ok().build();
     }
 }
 

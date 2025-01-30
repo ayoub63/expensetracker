@@ -20,4 +20,10 @@ public class ExpenseService {
     public Expense saveExpense(Expense expense) {
         return expenseRepository.save(expense);
     }
+
+  
+
+    public void deleteSelectedExpenses(List<Long> ids) {
+        expenseRepository.deleteAllById(ids);
+    }
 }

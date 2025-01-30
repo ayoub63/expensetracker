@@ -1,11 +1,11 @@
 package com.example.expensetracker.expensetracker.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;import javax.persistence.Id;
-
-
-
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import java.time.LocalDateTime;
 
 @Entity
 public class Expense {
@@ -13,17 +13,23 @@ public class Expense {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+    private String title;
     private Double amount;
-    private String description;
+    private String category;
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
 
     // Constructors
     public Expense() {}
-    
-    public Expense(String name, Double amount, String description) {
-        this.name = name;
+
+    public Expense(String title, Double amount, String category) {
+        this.title = title;
         this.amount = amount;
-        this.description = description;
+        this.category = category;
     }
 
     // Getters and Setters
@@ -35,12 +41,12 @@ public class Expense {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Double getAmount() {
@@ -51,11 +57,19 @@ public class Expense {
         this.amount = amount;
     }
 
-    public String getDescription() {
-        return description;
+    public String getCategory() {
+        return category;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }
