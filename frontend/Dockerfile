@@ -4,6 +4,10 @@ FROM node:18-alpine AS build
 # Set working directory
 WORKDIR /app
 
+# Set build-time environment variable
+ARG REACT_APP_API_URL
+ENV REACT_APP_API_URL=$REACT_APP_API_URL
+
 # Copy package files
 COPY package*.json ./
 
@@ -12,6 +16,9 @@ RUN npm install --legacy-peer-deps
 
 # Copy app files
 COPY . .
+
+# Create env file
+RUN echo "REACT_APP_API_URL=$REACT_APP_API_URL" > .env
 
 # Build app
 RUN npm run build
