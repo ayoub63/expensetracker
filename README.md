@@ -69,3 +69,18 @@ A full-stack expense tracking application built with React.js and Spring Boot, f
    - Implemented error handling
    - Managed asynchronous operations
    - Handled API responses effectively
+
+## Setup Instructions
+
+### Local Development
+1. Clone the repository
+2. Start the backend:
+   ```bash
+   ./mvnw spring-boot:run
+   ```
+3. Start the frontend:
+   ```bash
+   cd frontend
+   npm install
+   npm start
+   ```
