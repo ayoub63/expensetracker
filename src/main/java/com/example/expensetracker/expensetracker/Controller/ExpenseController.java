@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = {"https://expensetracker-frontend-p26u.onrender.com", "http://localhost:3000"}, 
+@CrossOrigin(origins = {"https://expensetracker-frontend-gi1s.onrender.com", "http://localhost:3000"}, 
             allowCredentials = "true",
             allowedHeaders = "*",
             methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
