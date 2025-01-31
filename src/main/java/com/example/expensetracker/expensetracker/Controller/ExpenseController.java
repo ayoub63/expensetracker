@@ -13,6 +13,7 @@ import java.util.List;
             allowCredentials = "true",
             allowedHeaders = "*",
             methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
+
 @RequestMapping("/api/expenses")
 public class ExpenseController {
 
